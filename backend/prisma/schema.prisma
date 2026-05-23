@@ -1,0 +1,185 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String?
+  name      String
+  bio       String?
+  avatar    String?
+  
+  // Social
+  followers Follower[] @relation("Following")
+  following Follower[] @relation("Followers")
+  
+  // Content
+  posts     Post[]
+  comments  Comment[]
+  likes     Like[]
+  savedPlaces SavedPlace[]
+  
+  // Admin
+  role      UserRole @default(USER)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([username])
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Follower {
+  id          String @id @default(cuid())
+  followerId  String
+  follower    User   @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  
+  followingId String
+  following   User   @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title       String
+  description String
+  images      String[] // Array of image URLs from Cloudinary
+  
+  locationId  String?
+  location    Destination? @relation(fields: [locationId], references: [id])
+  latitude    Float?
+  longitude   Float?
+  
+  comments    Comment[]
+  likes       Like[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([locationId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  text      String
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([postId])
+  @@index([userId])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
+  @@index([postId])
+  @@index([userId])
+}
+
+model SavedPlace {
+  id            String  @id @default(cuid())
+  userId        String
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime @default(now())
+
+  @@unique([userId, destinationId])
+  @@index([userId])
+  @@index([destinationId])
+}
+
+model Destination {
+  id          String   @id @default(cuid())
+  name        String
+  country     String
+  city        String?
+  description String
+  image       String?
+  
+  latitude    Float
+  longitude   Float
+  
+  category    String   // e.g., beach, mountain, city, adventure
+  rating      Float    @default(0)
+  
+  posts       Post[]
+  savedBy     SavedPlace[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([country])
+  @@index([category])
+}
+
+model TripPlan {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  
+  destination   String
+  budget        Float
+  days          Int
+  tripType      String   // e.g., adventure, relaxation, culture
+  
+  itinerary     String   // JSON string of itinerary
+  activities    String[] // Array of recommended activities
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  
+  type      String   // e.g., like, comment, follow
+  message   String
+  read      Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([read])
+}

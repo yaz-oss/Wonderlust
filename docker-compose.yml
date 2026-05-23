@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: wonderlust_postgres
+    environment:
+      POSTGRES_USER: wonderlust_user
+      POSTGRES_PASSWORD: wonderlust_password
+      POSTGRES_DB: wonderlust_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - wonderlust_network
+
+volumes:
+  postgres_data:
+
+networks:
+  wonderlust_network:
+    driver: bridge
