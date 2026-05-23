@@ -5,9 +5,11 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "npm run db:init && tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "npm run db:init && node dist/index.js",
+    "db:init": "prisma generate && prisma migrate deploy && npm run db:seed",
+    "db:seed": "tsx prisma/seed.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio"
@@ -20,7 +22,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "@prisma/client": "^5.6.0",
-    "jsonwebtoken": "^9.1.2",
+    "jsonwebtoken": "^9.0.2",
     "bcryptjs": "^2.4.3",
     "axios": "^1.6.2",
     "passport": "^0.7.0",
