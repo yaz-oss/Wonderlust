@@ -5,10 +5,11 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "dev": "npm run db:init && tsx watch src/index.ts",
+    "dev": "npm run db:dev && tsx watch src/index.ts",
     "build": "tsc",
     "start": "npm run db:init && node dist/index.js",
     "db:init": "prisma generate && prisma migrate deploy && npm run db:seed",
+    "db:dev": "prisma migrate deploy && npm run db:seed",
     "db:seed": "tsx prisma/seed.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",

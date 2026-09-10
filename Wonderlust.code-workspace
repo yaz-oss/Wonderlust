@@ -1,0 +1,55 @@
+{
+  "folders": [
+    {
+      "path": "frontend",
+      "name": "Frontend (React + Vite)"
+    },
+    {
+      "path": "backend",
+      "name": "Backend (Express + Node)"
+    }
+  ],
+  "settings": {
+    "[css]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "css.lint.unknownAtRules": "ignore",
+    "json.schemas": [
+      {
+        "fileMatch": ["/tsconfig.json", "/tsconfig.*.json"],
+        "url": "https://json.schemastore.org/tsconfig.json"
+      }
+    ],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.fixAll.stylelint": "explicit"
+    },
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.next": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "bradlc.vscode-tailwindcss",
+      "stylelint.vscode-stylelint",
+      "ms-vscode.vscode-typescript-next"
+    ]
+  }
+}

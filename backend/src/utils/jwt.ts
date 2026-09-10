@@ -1,8 +1,13 @@
 import jwt, { SignOptions } from 'jsonwebtoken'
+import { UserRole } from '@prisma/client'
 
-export const generateToken = (userId: string, expiresIn: SignOptions['expiresIn'] = '7d') => {
+export const generateToken = (
+  userId: string,
+  role: UserRole = 'USER',
+  expiresIn: SignOptions['expiresIn'] = '7d'
+) => {
   return jwt.sign(
-    { id: userId },
+    { id: userId, role },
     process.env.JWT_SECRET || 'secret',
     { expiresIn }
   )

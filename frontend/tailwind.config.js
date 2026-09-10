@@ -8,20 +8,20 @@ export default {
     extend: {
       colors: {
         primary: {
-          bg: '#0B1020',
-          'bg-secondary': '#121A2F',
-          accent: '#7C4DFF',
-          'accent-cyan': '#00D4FF',
-          text: '#F5F7FF',
-          'text-soft': '#AAB2D5',
+          bg: '#F8F4FF',
+          'bg-secondary': '#FFFFFF',
+          accent: '#C026D3',
+          'accent-cyan': '#06B6D4',
+          text: '#21133E',
+          'text-soft': '#6B5C7E',
         }
       },
       backdropBlur: {
         xs: '2px',
       },
       boxShadow: {
-        'glow': '0 0 20px rgba(124, 77, 255, 0.3)',
-        'glow-cyan': '0 0 20px rgba(0, 212, 255, 0.3)',
+        'glow': '0 18px 45px rgba(58, 16, 107, 0.11)',
+        'glow-cyan': '0 18px 45px rgba(6, 182, 212, 0.2)',
       }
     },
   },

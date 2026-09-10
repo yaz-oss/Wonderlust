@@ -18,6 +18,7 @@ model User {
   name      String
   bio       String?
   avatar    String?
+  googleId  String?   @unique
   
   // Social
   followers Follower[] @relation("Following")
@@ -28,6 +29,7 @@ model User {
   comments  Comment[]
   likes     Like[]
   savedPlaces SavedPlace[]
+  bookings  Booking[]
   
   // Admin
   role      UserRole @default(USER)
@@ -144,12 +146,42 @@ model Destination {
   
   posts       Post[]
   savedBy     SavedPlace[]
+  bookings    Booking[]
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([country])
   @@index([category])
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  destinationId String
+  destination   Destination   @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  ticketCode    String        @unique
+  travelerName  String
+  travelers     Int           @default(1)
+  visitDate     DateTime
+  totalPrice    Float
+  status        BookingStatus @default(CONFIRMED)
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([destinationId])
+  @@index([ticketCode])
+  @@index([status])
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
 }
 
 model TripPlan {

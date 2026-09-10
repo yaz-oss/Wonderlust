@@ -1,7 +1,5 @@
 import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import prisma from '../utils/prisma.js'
 
 export const getAllDestinations = async (req: Request, res: Response) => {
   try {
@@ -18,7 +16,7 @@ export const getAllDestinations = async (req: Request, res: Response) => {
       take: Number(limit),
       include: {
         _count: {
-          select: { posts: true, savedBy: true }
+          select: { bookings: true }
         }
       }
     })
@@ -36,13 +34,7 @@ export const getDestinationById = async (req: Request, res: Response) => {
     const destination = await prisma.destination.findUnique({
       where: { id },
       include: {
-        posts: {
-          include: {
-            user: {
-              select: { id: true, username: true, name: true, avatar: true }
-            }
-          }
-        }
+        _count: { select: { bookings: true } }
       }
     })
 
@@ -61,13 +53,13 @@ export const getTrendingDestinations = async (req: Request, res: Response) => {
     const destinations = await prisma.destination.findMany({
       take: 10,
       orderBy: {
-        posts: {
+        bookings: {
           _count: 'desc'
         }
       },
       include: {
         _count: {
-          select: { posts: true, savedBy: true }
+          select: { bookings: true }
         }
       }
     })

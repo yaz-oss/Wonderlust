@@ -1,0 +1,24 @@
+
+> wonderlust-backend@1.0.0 dev
+> npm run db:dev && tsx watch src/index.ts
+
+
+> wonderlust-backend@1.0.0 db:dev
+> prisma migrate deploy && npm run db:seed
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "wonderlust_db", schema "public" at "localhost:5432"
+
+1 migration found in prisma/migrations
+
+
+No pending migrations to apply.
+
+> wonderlust-backend@1.0.0 db:seed
+> tsx prisma/seed.ts
+
+Admin user ready: ishimweyaziid749@gmail.com
+Destinations ready: 0 created, 13 updated
+🌍 Wonderlust API running on port 5000
+Environment: development
