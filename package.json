@@ -1,0 +1,16 @@
+{
+  "name": "wonderlust-monorepo",
+  "private": true,
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "backend/src/**/*.{ts,tsx,js,jsx,json,md}": [
+      "npm --prefix backend run lint"
+    ],
+    "frontend/src/**/*.{ts,tsx,js,jsx,json,md,css}": [
+      "npm --prefix frontend run lint",
+      "npm --prefix frontend run format"
+    ]
+  }
+}
